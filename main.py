@@ -4,6 +4,7 @@ import requests
 import telegram
 import textwrap
 import os
+import logging
 
 
 def get_reviews(reviews_url, api_token, payload=None):
@@ -41,6 +42,7 @@ if __name__ == '__main__':
     chat_id = os.environ['CHAT_ID']
     devman_api_token = os.environ['DEVMAN_API_TOKEN']
     user_reviews_url = 'https://dvmn.org/api/long_polling/'
+    logging.warning('Бот запущен.')
     while True:
         try:
             review_response = get_reviews(user_reviews_url, devman_api_token)
