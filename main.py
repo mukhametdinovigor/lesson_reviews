@@ -1,9 +1,9 @@
 from urllib.parse import urljoin
 import time
-from environs import Env
 import requests
 import telegram
 import textwrap
+import os
 
 
 def get_reviews(reviews_url, api_token, payload=None):
@@ -37,11 +37,9 @@ def send_message(message, telegram_token, chat_id):
 
 
 if __name__ == '__main__':
-    env = Env()
-    env.read_env()
-    telegram_token = env.str('TELEGRAM_TOKEN')
-    chat_id = env.int('CHAT_ID')
-    devman_api_token = env.str('DEVMAN_API_TOKEN')
+    telegram_token = os.environ['TELEGRAM_TOKEN']
+    chat_id = os.environ['CHAT_ID']
+    devman_api_token = os.environ['DEVMAN_API_TOKEN']
     user_reviews_url = 'https://dvmn.org/api/long_polling/'
     while True:
         try:
