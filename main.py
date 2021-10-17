@@ -8,8 +8,9 @@ import logging
 
 
 class TelegramLogsHandler(logging.Handler):
-    def __init__(self, tg_bot, chat_id):
+    def __init__(self, chat_id):
         super().__init__()
+        tg_bot = telegram.Bot(token=os.environ['BUG_REPORTING_BOT_TOKEN'])
         self.chat_id = chat_id
         self.tg_bot = tg_bot
 
@@ -43,7 +44,8 @@ def get_message(review_response):
     return textwrap.dedent(message)
 
 
-def send_message(bot, message, telegram_token, chat_id):
+def send_message(message, telegram_token, chat_id):
+    bot = telegram.Bot(token=telegram_token)
     bot.send_message(text=message, chat_id=chat_id)
 
 
@@ -52,10 +54,10 @@ if __name__ == '__main__':
     chat_id = os.environ['CHAT_ID']
     devman_api_token = os.environ['DEVMAN_API_TOKEN']
     user_reviews_url = 'https://dvmn.org/api/long_polling/'
-    bot = telegram.Bot(token=telegram_token)
+
     logger = logging.getLogger('Logger')
     logger.setLevel(logging.WARNING)
-    logger.addHandler(TelegramLogsHandler(bot, chat_id))
+    logger.addHandler(TelegramLogsHandler(chat_id))
     logger.warning('Бот запущен.')
     while True:
         try:
@@ -66,7 +68,7 @@ if __name__ == '__main__':
                 message = get_message(review_response)
                 send_message(message, telegram_token, chat_id)
                 payload = {'timestamp': review_response['last_attempt_timestamp']}
-        except requests.exceptions.ReadTimeout or requests.exceptions.ConnectionError:
-            logger.error('Бот упал с ошибкой')
+        except Exception:
+            logger.exception('Произошла ошибка:')
             time.sleep(60)
             continue
