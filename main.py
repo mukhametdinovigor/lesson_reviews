@@ -7,6 +7,17 @@ import os
 import logging
 
 
+class TelegramLogsHandler(logging.Handler):
+    def __init__(self, tg_bot, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.tg_bot = tg_bot
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
+
+
 def get_reviews(reviews_url, api_token, payload=None):
     headers = {
         'Authorization': api_token
@@ -32,8 +43,7 @@ def get_message(review_response):
     return textwrap.dedent(message)
 
 
-def send_message(message, telegram_token, chat_id):
-    bot = telegram.Bot(token=telegram_token)
+def send_message(bot, message, telegram_token, chat_id):
     bot.send_message(text=message, chat_id=chat_id)
 
 
@@ -42,7 +52,11 @@ if __name__ == '__main__':
     chat_id = os.environ['CHAT_ID']
     devman_api_token = os.environ['DEVMAN_API_TOKEN']
     user_reviews_url = 'https://dvmn.org/api/long_polling/'
-    logging.warning('Бот запущен.')
+    bot = telegram.Bot(token=telegram_token)
+    logger = logging.getLogger('Logger')
+    logger.setLevel(logging.WARNING)
+    logger.addHandler(TelegramLogsHandler(bot, chat_id))
+    logger.warning('Бот запущен.')
     while True:
         try:
             review_response = get_reviews(user_reviews_url, devman_api_token)
@@ -53,5 +67,6 @@ if __name__ == '__main__':
                 send_message(message, telegram_token, chat_id)
                 payload = {'timestamp': review_response['last_attempt_timestamp']}
         except requests.exceptions.ReadTimeout or requests.exceptions.ConnectionError:
+            logger.error('Бот упал с ошибкой')
             time.sleep(60)
             continue
