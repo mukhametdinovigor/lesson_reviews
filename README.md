@@ -22,6 +22,7 @@ pip install -r requirements.txt
 Доступны 3 переменные:
 - `DEVMAN_API_TOKEN` - токен на [devman.org](https://dvmn.org/)
 - `TELEGRAM_TOKEN` - телеграм токен бота
+- `BUG_REPORTING_BOT_TOKEN` - телеграм токен бота, в который придет уведомление если основной боту упал с ошибкой
 - `CHAT_ID` - ваш чат id
 
 
