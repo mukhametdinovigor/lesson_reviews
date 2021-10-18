@@ -6,6 +6,8 @@ import textwrap
 import os
 import logging
 
+logger = logging.getLogger('Logger')
+
 
 class TelegramLogsHandler(logging.Handler):
     def __init__(self, chat_id):
@@ -54,8 +56,6 @@ if __name__ == '__main__':
     chat_id = os.environ['CHAT_ID']
     devman_api_token = os.environ['DEVMAN_API_TOKEN']
     user_reviews_url = 'https://dvmn.org/api/long_polling/'
-
-    logger = logging.getLogger('Logger')
     logger.setLevel(logging.WARNING)
     logger.addHandler(TelegramLogsHandler(chat_id))
     logger.warning('Бот запущен.')
@@ -68,7 +68,11 @@ if __name__ == '__main__':
                 message = get_message(review_response)
                 send_message(message, telegram_token, chat_id)
                 payload = {'timestamp': review_response['last_attempt_timestamp']}
-        except Exception:
-            logger.exception('Произошла ошибка:')
+        except requests.exceptions.ReadTimeout:
+            logger.exception('Время подключения истекло:')
+            time.sleep(60)
+            continue
+        except requests.exceptions.ConnectionError:
+            logger.exception('Произошла ошибка связи:')
             time.sleep(60)
             continue
