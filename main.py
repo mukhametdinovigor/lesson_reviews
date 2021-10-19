@@ -69,8 +69,6 @@ if __name__ == '__main__':
                 send_message(bot, message, telegram_token, chat_id)
                 payload = {'timestamp': review_response['last_attempt_timestamp']}
         except requests.exceptions.ReadTimeout:
-            logger.exception('Время подключения истекло:')
-            time.sleep(60)
             continue
         except requests.exceptions.ConnectionError:
             logger.exception('Произошла ошибка связи:')
