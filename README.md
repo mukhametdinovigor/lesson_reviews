@@ -41,6 +41,22 @@ docker build --tag reviews .
 docker run -d reviews
 ```
 
+## Запуск на локальной машине с помощью Docker Compose
+
+Запустить Docker Compose
+
+```angular2html
+docker-compose up -d
+```
+
+В `docker-compose.yml` примонтирован корневой каталог проекта. Это позволяет не пересобирать образ при изменении
+файлов. После изменения файлов необходимо перезапустить Docker Compose
+
+```
+docker-compose restart
+```
+
+
 ## Цели проекта
 
 Код написан в учебных целях — это урок в курсе по Python и веб-разработке на сайте [Devman](https://dvmn.org).
