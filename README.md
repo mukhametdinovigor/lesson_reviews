@@ -25,6 +25,21 @@ pip install -r requirements.txt
 - `BUG_REPORTING_BOT_TOKEN` - телеграм токен бота, в который придет уведомление если основной боту упал с ошибкой
 - `CHAT_ID` - ваш чат id
 
+## Запуск на локальной машине с помощью Docker
+
+Необходимо установить [Docker](https://docs.docker.com/get-docker/)
+
+Создать образ:
+
+```
+docker build --tag reviews .
+```
+
+Запустить контейнер:
+
+```
+docker run -d reviews
+```
 
 ## Цели проекта
 
