@@ -5,6 +5,8 @@ import telegram
 import textwrap
 import os
 import logging
+from dotenv import load_dotenv
+
 
 logger = logging.getLogger('Logger')
 
@@ -51,9 +53,11 @@ def send_message(bot, message, telegram_token, chat_id):
 
 
 if __name__ == '__main__':
-    telegram_token = os.environ['TELEGRAM_TOKEN']
-    chat_id = os.environ['CHAT_ID']
-    devman_api_token = os.environ['DEVMAN_API_TOKEN']
+    load_dotenv()
+
+    telegram_token = os.getenv('TELEGRAM_TOKEN')
+    chat_id = os.getenv('CHAT_ID')
+    devman_api_token = os.getenv('DEVMAN_API_TOKEN')
     user_reviews_url = 'https://dvmn.org/api/long_polling/'
     bot = telegram.Bot(token=telegram_token)
     logger.setLevel(logging.WARNING)
