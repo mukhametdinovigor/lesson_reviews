@@ -5,5 +5,4 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 COPY . .
-RUN apt-get clean && rm --recursive --force /var/lib/apt/lists/*
 CMD [ "python3", "main.py" ]
