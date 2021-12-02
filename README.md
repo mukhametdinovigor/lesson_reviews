@@ -44,12 +44,46 @@ docker build --tag reviews .
 docker run -d reviews
 ```
 
+
+Переменные окружения можно передать при запуске контейнера:
+
+```
+docker run -d \  
+    -e DEVMAN_API_TOKEN="Token 710672fc7d2db857c191453b51d1bf1161919975" \ 
+    -e TELEGRAM_TOKEN="1879844941:AAFR9WgT2yEZliUBq2c8AEeIb26h-radxJo" \
+    -e BUG_REPORTING_BOT_TOKEN="1924730837:AAGg69aGaTsawPbKuhbs3hvhHPI2PTDjy_8" \ 
+    -e CHAT_ID="287543165" reviews
+```
+
+Или указать путь к файлу с переменными окружения .env
+
+```
+docker run -d --env-file path/to/.env reviews
+```
+
+
 ### Запуск с помощью Docker Compose
 
 Запустить Docker Compose
 
 ```
 docker-compose up -d
+```
+
+Переменные окружения можно передать при запуске необходимой службы `docker-compose`, которая определена в `docker-compose.yml`:
+
+```
+docker-compose run -d \ 
+    -e DEVMAN_API_TOKEN="Token 710672fc7d2db857c191453b51d1bf1161919975" \ 
+    -e TELEGRAM_TOKEN="1879844941:AAFR9WgT2yEZliUBq2c8AEeIb26h-radxJo" \ 
+    -e BUG_REPORTING_BOT_TOKEN="1924730837:AAGg69aGaTsawPbKuhbs3hvhHPI2PTDjy_8" \ 
+    -e CHAT_ID="287543165"  app
+```
+
+Или указать путь к файлу с переменными окружения .env:
+
+```
+docker-compose --env-file path/to/.env up -d
 ```
 
 В `docker-compose.yml` примонтирован корневой каталог проекта. Это позволяет не пересобирать образ при изменении
