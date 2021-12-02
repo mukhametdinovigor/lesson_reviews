@@ -15,9 +15,11 @@ pip install -r requirements.txt
 ```
 У вас должен быть [зарегистрированный бот в Telegram](https://telegram.me/BotFather)
 
-## Переменные окружения
 
-Часть настроек проекта берётся из переменных окружения. Чтобы их определить, создайте файл `.env` рядом с `main.py` и запишите туда данные в таком формате: `ПЕРЕМЕННАЯ=значение`.
+## Как запустить:
+
+Часть настроек проекта берётся из переменных окружения. Чтобы их определить, создайте файл `.env` рядом с `main.py` и запишите 
+туда данные в таком формате: `ПЕРЕМЕННАЯ=значение`.
 
 Доступны 3 переменные:
 - `DEVMAN_API_TOKEN` - токен на [devman.org](https://dvmn.org/)
@@ -25,7 +27,8 @@ pip install -r requirements.txt
 - `BUG_REPORTING_BOT_TOKEN` - телеграм токен бота, в который придет уведомление если основной боту упал с ошибкой
 - `CHAT_ID` - ваш чат id
 
-## Запуск на локальной машине с помощью Docker
+
+### Запуск с помощью Docker
 
 Необходимо установить [Docker](https://docs.docker.com/get-docker/)
 
@@ -41,11 +44,11 @@ docker build --tag reviews .
 docker run -d reviews
 ```
 
-## Запуск на локальной машине с помощью Docker Compose
+### Запуск с помощью Docker Compose
 
 Запустить Docker Compose
 
-```angular2html
+```
 docker-compose up -d
 ```
 
@@ -55,7 +58,6 @@ docker-compose up -d
 ```
 docker-compose restart
 ```
-
 
 ## Цели проекта
 
